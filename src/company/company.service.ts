@@ -1,18 +1,19 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
-import { comp } from './company.mocks';
-import { EMPLOYEES } from 'src/employee/employees.mock';
+import { Company } from './entities/company.entity';
 @Injectable()
 export class CompanyService {
-  private companies_name = comp;
 
-  public create_company(company) {
-    // return 'This action adds a new company';
-    return this.companies_name.push(company);
+  public create_company(companyRequest: CreateCompanyDto) {
+    const company =new Company();
+    company.Address=companyRequest.Address;
+    company.comp_name=companyRequest.Comp_name;
+    return company.save();
   }
-  public get_company() {
-    return this.companies_name;
+  public async get_company() {
+
+     const companies = await Company.find();
+     return companies;
   }
   // findAll() {
   //   // return `This action returns all company`;
@@ -20,32 +21,35 @@ export class CompanyService {
 
   // }
 
-  public findOne_company(comp_nbr: number) {
-    const company = this.companies_name.find(comp => comp.comp_nbr === comp_nbr);
+  public findOne_company(id: number) {
+    const company =  Company.findOne({where:{id:id}});
     if (!company) {
       throw new HttpException('not found', 404);
     }
     return (company);
     }
     // return `This action returns a #${employee_id} company`;
-  public update_company(comp_nbr: number, comp_name: string, address: string, updateCompanyDto: UpdateCompanyDto) {
-    const index = this.companies_name.findIndex(comp => comp.comp_nbr === comp_nbr)
-    if (index === -1) {
-      throw new HttpException('not found', 404);
+  public async update_company(comp_nbr: number, comp_name: string, address: string) {
+    const company =  await Company.findOne({where:{id: comp_nbr}});
+    if (!company) {
+      throw new NotFoundException("Company not found");
     }
-    this.companies_name[index];
-    return this.companies_name;
+   company.Address=address;
+   company.comp_name=comp_name;
+   return company.save();
+
   }
 
-  public remove_company(comp_nbr: number) {
-    const index = this.companies_name.findIndex(comp => comp.comp_nbr === comp_nbr);
-    if (index === -1) {
-      throw new HttpException('not found', 404);
+  public async remove_company(comp_nbr: number) {
+    const company =  await Company.findOne({where:{id: comp_nbr}});
+    if (!company) {
+      throw new NotFoundException("Company not found");
     }
-    this.companies_name.splice(index, 1);
-    return this.companies_name;
-    }
+
+   await Company.delete(comp_nbr);
+
   }
+}
   // public putEmployeesById(id: number, propertyName: string, propertyValue: string){
   //     const index = this.Emp.findIndex(employee => employee.employee_id === id);
   //     if (index === -1){

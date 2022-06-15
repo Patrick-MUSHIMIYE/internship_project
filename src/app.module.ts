@@ -12,24 +12,15 @@ import { CompanyController } from './company/company.controller';
 
 @Module({
   imports: [
+
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
-      port: 3308,
+      port: 3306,
       username: 'root',
-      password: '',
-      database: 'emp_dbs',
-      entities: [User],
-      synchronize: true,
-    }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3308,
-      username: 'root',
-      password: '',
+      password: 'password',
       database: 'company_dbs',
-      entities: [Company],
+      entities: [Company, User],
       synchronize: true,
     }),
     EmployeeModule, CompanyModule,
