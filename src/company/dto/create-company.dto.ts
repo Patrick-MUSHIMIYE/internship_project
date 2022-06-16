@@ -1,5 +1,12 @@
+import { ApiProperty} from "@nestjs/swagger"
+
 export class CreateCompanyDto {
-    readonly comp_nbr : number
-    readonly Comp_name: string
-    readonly Address: string
+    @ApiProperty()
+    comp_nbr : number;
+
+    @ApiProperty()
+    Comp_name: string;
+
+    @ApiProperty()
+    Address: string;
 }

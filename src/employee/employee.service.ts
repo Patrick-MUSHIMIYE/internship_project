@@ -3,89 +3,46 @@ import { EMPLOYEES } from './employees.mock';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import { EmpDto } from './employee.dto';
 
 @Injectable()
 export class EmployeeService {
-  //     const index = this.Emp.findIndex(employee => employee.employee_id === id);
-  //     if (index === -1){
-  //         throw new HttpException('not found', 404);
-  //     }
-  //     this.Emp.splice(index, 1)
-  //     return this.Emp;
-  // }
-  private Emp = EMPLOYEES;
+  // private Emp = EMPLOYEES;// employee array declaration
 
-  public getEmployees() {
-    return this.Emp;
+ 
+  public postEmployees(employeeRequest: EmpDto) {
+    const employee = new User ();
+    employee.employee_name = employeeRequest.employee_name;
+    employee.company_name = employeeRequest.company_name;
+    // return this.Emp.push(employee); // return in arrays
+    return employee.save();
   }
-  public postEmployees(employee) {
-    console.log(employee);
-    return this.Emp.push(employee);
+
+  public async getEmployees() {
+    const employees = await User.find()
+    return employees;
   }
-  // public  getEmployeesById(id: number){
-  //     const employee = this.Emp.find(employee => employee.employee_id === id);
-  //     if (employee){
-  //         throw new HttpException('not found', 404);
-  //     }
-  //     return employee;
-  // }
-  public getEmployeesById(@Param('id') employee_id: number): Promise<any> {
-    const EmpId = Number(employee_id);
-    return new Promise((resolve) => {
-      const employee = this.Emp.find(
-        (employee) => employee.employee_id === EmpId,
-      );
+  public async getEmployeesById(employee_id: number){
+    const employee = await User.findOne({where: {employee_id: employee_id}});
+    if (!employee){
+      throw new HttpException("Not found", 404);
+    }
+    return employee;
+  }
+  public async deleteEmployeesById(id: number){
+    const employee = await User.findOne({where: {employee_id: id}})
       if (!employee) {
         throw new HttpException('not found', 404);
       }
-      return resolve(employee);
-    });
-  }
-
-  // public  deleteEmployeesById(id: number){
-  //     const index = this.Emp.findIndex(employee => employee.employee_id === id);
-  //     if (index === -1){
-  //         throw new HttpException('not found', 404);
-  //     }
-  //     this.Emp.splice(index, 1)
-  //     return this.Emp;
-  // }
-  public deleteEmployeesById(@Param('id') employee_id: number): Promise<any> {
-    const EmpId = Number(employee_id);
-    return new Promise((resolve) => {
-      const index = this.Emp.findIndex(
-        (employee) => employee.employee_id === EmpId,
-      );
-      if (index === -1) {
-        throw new HttpException('not found', 404);
-      }
-      this.Emp.splice(index, 1);
-      return resolve(this.Emp);
-    });
-  }
-  // public putEmployeesById(id: number, propertyName: string, propertyValue: string){
-  //     const index = this.Emp.findIndex(employee => employee.employee_id === id);
-  //     if (index === -1){
-  //         throw new HttpException('not found', 404);
-  //     }
-  //     this.Emp[index][propertyName] = propertyValue;
-  //     return this.Emp;
-  // }
-  public putEmployeesById(
-    employee_id: number,
-    propertyName: string,
-    propertyValue: string,
-  ): Promise<any> {
-    const EmpId = Number(employee_id);
-    return new Promise((resolve) => {
-      const index = this.Emp.findIndex(
-        (employee) => employee.employee_id === EmpId,
-      );
-      if (index === -1) {
-        throw new HttpException('not found', 404);
-      }
-      this.Emp[index][propertyName] = propertyValue;
-      return resolve(this.Emp);
-    });
+      await User.delete(id);
+    };
+  public async putEmployeesById(employee_id: number, employee_name: string, company_name: string){
+    const employees = await User.findOne({where: {employee_id: employee_id}});
+    if (!employees){
+      throw new HttpException('not found', 404);
+    }
+    employees.employee_name = employee_name;
+    employees.company_name = company_name;
+    return employees.save();
   }
 }

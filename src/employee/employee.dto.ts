@@ -1,5 +1,12 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export class EmpDto {
-  readonly employee_id: number;
-  readonly employee_name: string;
-  readonly company_name: string;
+  @ApiProperty()
+  employee_id: number;
+
+  @ApiProperty()
+  employee_name: string;
+
+  @ApiProperty()
+  company_name: string;
 }
