@@ -21,16 +21,16 @@ export class CompanyController {
 
   @Get(':comp_nbr')
   findOne_company(@Param('comp_nbr') comp_nbr: number) {
-    return this.companyService.findOne_company(+comp_nbr);
+    return this.companyService.findOne_company(comp_nbr);
   }
 
   @Patch(':comp_nbr')
   update_company(@Param('comp_nbr') comp_nbr: number, @Body() comp_name: string, address: string) {
-    return this.companyService.update_company(+comp_nbr, comp_name, address,);
+    return this.companyService.update_company(comp_nbr, comp_name, address,);
   }
 
   @Delete(':comp_nbr')
   remove_company(@Param('comp_nbr') comp_nbr: number) {
-    return this.companyService.remove_company(+comp_nbr);
+    return this.companyService.remove_company(comp_nbr);
   }
 }

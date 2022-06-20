@@ -23,19 +23,19 @@ export class EmployeeController {
     return this.employeeService.postEmployees(employee);
   }
 
-  @Get(':id')
-  public async getEmployeesById(@Param('id') employee_id: number) {
+  @Get(':employee_id')
+  public async getEmployeesById(@Param('employee_id') employee_id: number) {
     return this.employeeService.getEmployeesById(employee_id);
   }
 
-  @Delete()
-  public async deleteEmployeesById(@Param('id') employee_id: number) {
+  @Delete(':employee_id')
+  public async deleteEmployeesById(@Param('employee_id') employee_id: number) {
     return this.employeeService.deleteEmployeesById(employee_id);
   }
 
-  @Put(':id')
+  @Put(':employee_id')
   public async putEmployeesById(
-    @Param('id') employee_id: number,
+    @Param('employee_id') employee_id: number,
     @Query() query,
   ) {
     const propertyName = query.property_name;

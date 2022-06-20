@@ -10,7 +10,7 @@ export class CompanyService {
     // return this.companies_name.push(company); // Return arrays
     const company = new Company();
     company.Address = companyRequest.Address;
-    company.comp_name = companyRequest.Comp_name;
+    company.Comp_name = companyRequest.Comp_name;
     return company.save();
   }
   public async get_company() {
@@ -37,7 +37,7 @@ export class CompanyService {
     if (!company) {
       throw new HttpException('not found', 404);
     }
-    company.comp_name = comp_name;
+    company.Comp_name = comp_name;
     company.Address = address;
     return company.save();
   }
@@ -49,7 +49,6 @@ export class CompanyService {
     }
     // this.companies_name.splice(index, 1); utilized for only array
     // return this.companies_name;
-
     await Company.delete(comp_nbr);
     }
   }

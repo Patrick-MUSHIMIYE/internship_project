@@ -29,13 +29,14 @@ export class EmployeeService {
     }
     return employee;
   }
-  public async deleteEmployeesById(id: number){
-    const employee = await User.findOne({where: {employee_id: id}})
+  public async deleteEmployeesById(employee_id: number){
+    const employee = await User.findOne({where: {employee_id: employee_id}})
       if (!employee) {
         throw new HttpException('not found', 404);
       }
-      await User.delete(id);
-    };
+      await User.delete(employee_id);
+      
+    }
   public async putEmployeesById(employee_id: number, employee_name: string, company_name: string){
     const employees = await User.findOne({where: {employee_id: employee_id}});
     if (!employees){
