@@ -9,6 +9,7 @@ import { CompanyModule } from './company/company.module';
 import { Company } from './company/entities/company.entity'
 import { CompanyService } from './company/company.service';
 import { CompanyController } from './company/company.controller';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { CompanyController } from './company/company.controller';
       synchronize: true,
     }),
     EmployeeModule, CompanyModule,
-    TypeOrmModule.forFeature([User,Company])
+    TypeOrmModule.forFeature([User,Company]),
+    EmailModule
 
   ],
 
