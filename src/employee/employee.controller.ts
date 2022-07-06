@@ -34,16 +34,10 @@ export class EmployeeController {
   }
 
   @Put(':employee_id')
-  public async putEmployeesById(
-    @Param('employee_id') employee_id: number,
-    @Query() query,
-  ) {
-    const propertyName = query.property_name;
-    const propertyValue = query.property_value;
-    return this.employeeService.putEmployeesById(
-      employee_id,
-      propertyName,
-      propertyValue,
-    );
+  public async putEmployeesById(@Param('employee_id') employee_id: number){
+    return this.employeeService.putEmployeesById;
   }
 }
+// @Patch(':comp_nbr')
+//   update_company(@Param('comp_nbr') comp_nbr: number, @Body() updateCompanyDto:UpdateCompanyDto) {
+//     return this.companyService.update_company(comp_nbr, updateCompanyDto);

@@ -42,8 +42,9 @@ export class EmployeeService {
     if (!employees){
       throw new HttpException('not found', 404);
     }
-    employees.employee_name = employee_name;
-    employees.company_name = company_name;
+     employees.employee_name = employee_name;
+     employees.company_name = company_name;
     return employees.save();
+    
   }
 }

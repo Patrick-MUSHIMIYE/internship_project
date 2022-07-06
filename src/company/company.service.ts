@@ -1,6 +1,7 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { Company } from './entities/company.entity';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 import {comp} from './company.mocks';
 @Injectable()
 export class CompanyService {
@@ -32,15 +33,21 @@ export class CompanyService {
     return (company);
     }
     // return `This action returns a #${employee_id} company`;
-  public async update_company(comp_nbr: number, comp_name: string, address: string) {
-    const company = await Company.findOne({where: {comp_id:comp_nbr}});
+  public async update_company(comp_nbr:number,updateUserDto:UpdateCompanyDto) {
+    const company =  await Company.findOne({where:{comp_id: comp_nbr}});
     if (!company) {
-      throw new HttpException('not found', 404);
+      throw new NotFoundException("Company not found");
     }
-    company.Comp_name = comp_name;
-    company.Address = address;
-    return company.save();
+   company.Address=updateUserDto.Address;
+   company.Comp_name= updateUserDto.Comp_name;
+   return company.save();
+  //   const company = await Company.findOne({where: {comp_id:id}});
+  //   if (!company) {
+  //     throw new HttpException('not found', 404);
+  //   }
+  //   return Company.update(id,updateUserDto);
   }
+
 
   public async remove_company(comp_nbr: number) {
     const company = await Company.findOne({where: {comp_id: comp_nbr}});
@@ -60,3 +67,4 @@ export class CompanyService {
   //     this.Emp[index][propertyName] = propertyValue;
   //     return this.Emp;
   // }
+  

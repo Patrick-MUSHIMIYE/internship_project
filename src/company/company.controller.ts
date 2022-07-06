@@ -25,8 +25,8 @@ export class CompanyController {
   }
 
   @Patch(':comp_nbr')
-  update_company(@Param('comp_nbr') comp_nbr: number, @Body() comp_name: string, address: string) {
-    return this.companyService.update_company(comp_nbr, comp_name, address,);
+  update_company(@Param('comp_nbr') comp_nbr: number, @Body() updateCompanyDto:UpdateCompanyDto) {
+    return this.companyService.update_company(comp_nbr, updateCompanyDto);
   }
 
   @Delete(':comp_nbr')
